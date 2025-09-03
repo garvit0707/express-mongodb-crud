@@ -3,8 +3,7 @@ let mongoose = require("mongoose");
 
 let app = express();
 app.use(express.json());
-
-
+const mongo_db = "mongodb+srv://garvitsharma0707_db_user:8ZcC6AG9jMnIuMZO@firstcluster.9qvjhu9.mongodb.net/?retryWrites=true&w=majority&appName=firstcluster"
 mongoose
   .connect(mongo_db)
   .then(() => {
