@@ -1,12 +1,12 @@
 let express = require("express");
 // let mongoose = require("mongoose");
 let UserRoutes = require("./routes/user.routes") 
-
+let userDetailed_Router = require("./routes/userdetails.route")
 let app = express();
-
+ 
 app.use(express.json());
 app.use(UserRoutes);
-
+app.use(userDetailed_Router)
 // mongoose
 //   .connect(mongo_db)
 //   .then(() => {
@@ -106,12 +106,12 @@ app.use(UserRoutes);
 //   }
 // });
 
-app.get("/test", (req, res) => {
+app.get("/", (req, res) => {
   res.send("this is th test route i defined");
 });
-app.listen("3000", () => {
-  console.log("the port is now open attt 30000");
-});
+// app.listen("4000", () => {
+//   console.log("the port is now open attt 4000");
+// });
 
 
 module.exports = app;

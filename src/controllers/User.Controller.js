@@ -1,16 +1,14 @@
+const { response } = require("../app");
 const Users = require("../models/User.model");
 
-
-exports.adduser =  async (req, res) => {
+exports.adduser = async (req, res) => {
   try {
     const existing_user = await Users.findOne({ uniqueid: req.body.uniqueid });
     if (existing_user) {
-      return res
-        .status(409)
-        .send({
-          error: "User with this unique Id  already exists",
-          existing_user,
-        });
+      return res.status(409).send({
+        error: "User with this unique Id  already exists",
+        existing_user,
+      });
     }
     const newuser = new Users(req.body);
     await newuser.save();
@@ -21,7 +19,7 @@ exports.adduser =  async (req, res) => {
     console.log("error has been caught here!!!");
     res.status(500).send({ error: error.message });
   }
-}
+};
 
 exports.deleteUser = async (req, res) => {
   try {
@@ -36,7 +34,7 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
-exports.getuser =  async (req, res) => {
+exports.getuser = async (req, res) => {
   try {
     const data = await Users.find();
     res.status(201).send(data);
@@ -47,34 +45,58 @@ exports.getuser =  async (req, res) => {
 
 exports.updateuser = async (req, res) => {
   try {
-    const {uniqueid, ...updatedata} = req.body
-    console.log("the unique id and the unique data i have is here",uniqueid,updatedata)
-    if (!uniqueid){
-      return res.status(400).send({error:"uniqueid is required for updating user"})
+    const { uniqueid, ...updatedata } = req.body;
+    console.log(
+      "the unique id and the unique data i have is here",
+      uniqueid,
+      updatedata
+    );
+    if (!uniqueid) {
+      return res
+        .status(400)
+        .send({ error: "uniqueid is required for updating user" });
     }
 
     const updated_User = await Users.findOneAndUpdate(
       { uniqueid: uniqueid },
       updatedata
-    )
-       // CHANGE 3: Check if user exists
+    );
+    // CHANGE 3: Check if user exists
     if (!updated_User) {
-      return res.status(404).send({ 
-        error: "User with this uniqueid not found" 
+      return res.status(404).send({
+        error: "User with this uniqueid not found",
       });
     }
 
-    res.status(200).send({message: "data has been updated succesfully",updated_User})
+    res
+      .status(200)
+      .send({ message: "data has been updated succesfully", updated_User });
   } catch (error) {
     res.status(500).send({ error: error.message });
     console.log("error has been caught by me here!!");
   }
 };
 
+exports.logical = async (req, res) => {
+  try {
+    const work = req.params.work;
 
-exports.testuser = async(req, res)=>{
-    res.send("this is th test route i defined");
-}
+    if (work == "aman" || work == "piyush" || work == "pinkiiii") {
+      console.log("found it ");
+      response = await Users.find({ username: work });
+      res.status(200).json(response);
+    }
+
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.testuser = async (req, res) => {
+  res.send("this is th test route i defined");
+};
 
 // app.get("/test", (req, res) => {
 //   res.send("this is th test route i defined");
