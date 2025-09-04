@@ -3,16 +3,22 @@ const user_details = require("../models/userDetails.model");
 
 exports.adddata = async (req, res) => {
   try {
-    const find_data = await user_details.find({key : req.body.key})
-    if (find_data){
-        res.status(200).send({error: "it has the dublicate value , try another value to save"})
-    };
+   
+    const existing = await user_details.findOne({ key: req.body.key });
+
+    if (existing) {
+      return res
+        .status(400) 
+        .send({ error: "Duplicate value: this key already exists. Try another value." });
+    }
+
     const newdata = new user_details(req.body);
     await newdata.save();
-    res.status(200).send(newdata)
+
+    res.status(201).send(newdata);
   } catch (error) {
-    console.log("error has been caught here!!!");
-    res.status(402).send({ error: error.message });
+    console.error("❌ Error caught in adddata:", error.message);
+    res.status(500).send({ error: error.message });
   }
 };
 
@@ -25,4 +31,21 @@ exports.getdata = async(req,res) =>{
          console.log("error has been caught here!!!");
     res.status(402).send({ error: error.message });
     }
+}
+
+
+
+// this is the dynamic routing i have created or done from my side 
+exports.getuniquedata = async(req, res) =>{
+    try {
+        const unname = req.params.unique
+        const data = await user_details.find({uniquename: unname})
+        res.status(200).send({message:"data is found here",data})
+        console.log(data)
+
+    } catch (error) {
+         console.log("error has been caught here!!!");
+    res.status(402).send({ error: error.message });
+    }
+
 }

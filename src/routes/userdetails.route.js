@@ -5,6 +5,6 @@ const userdetails =  require("../controllers/userDetails.controller")
 
 router.post("/userdetails", userdetails.adddata)
 router.get("/userdetails", userdetails.getdata);
-
+router.post("/userdetails/:unique", userdetails.getuniquedata);
 
 module.exports = router
