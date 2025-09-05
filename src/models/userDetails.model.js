@@ -1,8 +1,8 @@
 let mongoose = require("mongoose");
 
 const mongodb_schema2 = new mongoose.Schema({
-  key: { type: Number,unique:true },
-  class: { type: Number, required: true },
+  key: { type: Number},
+  class: { type: Number, required: true,unique:true  },
   address: { type: String },
   surname: { type: String },
   greeting: { type: String },
