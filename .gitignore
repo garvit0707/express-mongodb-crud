@@ -1,2 +1,5 @@
 node_modules/
 # this is the file which is used to ignore the packages that we are using in our project
+
+
+.env

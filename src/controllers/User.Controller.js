@@ -98,6 +98,15 @@ exports.testuser = async (req, res) => {
   res.send("this is th test route i defined");
 };
 
+// middlewares function goes here
+
+
+// const logRequest =(req, res, next)=>{
+//     console.log(`the time is ${new Date().toDateString()} and the original url is ${req.originalUrl}`)
+// };
+
+
+
 // app.get("/test", (req, res) => {
 //   res.send("this is th test route i defined");
 // });

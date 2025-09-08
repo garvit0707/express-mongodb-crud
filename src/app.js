@@ -4,7 +4,14 @@ let UserRoutes = require("./routes/user.routes")
 let userDetailed_Router = require("./routes/userdetails.route")
 let app = express();
  
+
 app.use(express.json());
+
+app.use((req, res, next) => {
+  console.log(`the time is ${new Date().toLocaleString()} and the original url is ${req.originalUrl}`);
+  next();
+});
+
 app.use(UserRoutes);
 app.use(userDetailed_Router)
 // mongoose
